@@ -1,0 +1,61 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block content %}
+<!-- Map Container -->
+
+<div class="row">
+    <div class="col">
+        <div id="google_map">
+            <div class="map_container">
+                <div class="mapouter">
+                <iframe width="100%" height="100%" id="gmap_canvas"
+                src="https://maps.google.com/maps?q=university%20of%20brunel&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a
+                href="https://www.embedgooglemap.net/blog/nordvpn-coupon-code/">
+                </a><style>.mapouter{position:relative;text-align:right;height:100%;width:100%;}.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:1080px;}</style></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Us -->
+
+<div class="row">
+
+    <div class="col-lg-6 contact_col">
+        <div class="contact_contents">
+            <h1>Contact Us</h1>
+            <p>There are many ways to contact us. You may drop us a line, give us a call or send an email, choose what suits you the most.</p>
+            <div>
+                <p><img src="images/akram.jpg" alt="Simply Easy Learning" width="130" height="100"> </p>
+                <br>
+                <h3><strong><font color="#000000">Akram Khan</font></strong></h3>
+                <h5 style="margin-top:-10px;"><font color="#808080 ">Sales manager </font></h5>
+                <p><strong>Address:</strong> Tower D 311, Brunel University </p>
+                <p><strong>Email:</strong> akram.khan@brunel.ac.uk</p>
+                <p><strong>Tel:</strong> +44 (0)1895 266519</p>
+            </div>
+            <div>
+                <p></p>
+            </div>
+            <div>
+                <p><strong>Open hours:</strong> 8.00-18.00 Mon-Fri</p>
+                <p><strong>Weekend:</strong> Closed</p>
+            </div>
+        </div>
+
+        <!-- Follow Us -->
+
+        <div class="follow_us_contents">
+            <h1>Follow Us</h1>
+            <ul class="social d-flex flex-row">
+                <li><a href="#" style="background-color: #3a61c9"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                <li><a href="#" style="background-color: #41a1f6"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                <li><a href="#" style="background-color: #fb4343"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                <li><a href="#" style="background-color: #8f6247"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+            </ul>
+        </div>
+
+    </div>
+    {% endblock content %}

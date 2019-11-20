@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
 	{% if title %}
 		<title>Akram's Scarves - {{ title }}</title>
@@ -39,17 +39,17 @@
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
-								<li><a href="#">home</a></li>
+								<li><a href="{% url 'main-home' %}">home</a></li>
 								<li><a href="#">shop</a></li>
-								<li><a href="contact.html">contact</a></li>
+								<li><a href="{% url 'main-contact' %}">contact</a></li>
 								<li class="account">
 									<a href="#">
 										My Account
 										<i class="fa fa-angle-down"></i>
 									</a>
 									<ul class="account_selection">
-										<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-										<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+										<li><a href="{% url 'account_login' %}"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
+										<li><a href="{% url 'account_signup' %}"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -78,24 +78,24 @@
 		<div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
 		<div class="hamburger_menu_content text-right">
 			<ul class="menu_top_nav">
-				<li class="menu_item"><a href="#">home</a></li>
+				<li class="menu_item"><a href="{% url 'main-home' %}">home</a></li>
 				<li class="menu_item"><a href="#">shop</a></li>
-				<li class="menu_item"><a href="#">contact</a></li>
+				<li class="menu_item"><a href="{% url 'main-contact' %}">contact</a></li>
 				<li class="menu_item has-children">
 					<a href="#">
 						My Account
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="menu_selection">
-						<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-						<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+						<li><a href="{% url 'account_login' %}"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
+						<li><a href="{% url 'account_signup' %}"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
 					</ul>
 				</li>
 			</ul>
 		</div>
 	</div>
-
-	{% block content %}{% endblock content %}
+<br><br><br><br><br><br>
+	<center>{% block content %}{% endblock content %}</center>
 
 	<!-- Benefit -->
 
