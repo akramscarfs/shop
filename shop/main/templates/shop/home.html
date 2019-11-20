@@ -1,0 +1,26 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block content %}
+<div class="slideshow-container">
+    <div class="mySlides1">
+        <img src="{% static 'shop/images/akram_slide1.png' %}" style="width:100%">
+    </div>
+
+    <div class="mySlides1">
+        <img src="{% static 'shop/images/akram_slide2.png' %}" style="width:100%">
+    </div>
+
+    <div class="mySlides1">
+        <img src="{% static 'shop/images/akram_slide3.png' %}" style="width:100%">
+    </div>
+
+    <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+</div>
+
+
+<div align= Middle>
+    <p style="margin-top: 10px;"><font size ="+10"> Welcome to Akram's Scarfs </font></p>
+</div>
+
+{% endblock content %}
