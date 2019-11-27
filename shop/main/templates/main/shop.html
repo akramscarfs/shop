@@ -1,0 +1,31 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+	<div class="row">
+				<div class="col">
+					<div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>
+
+						<!-- Product 1 -->
+                        {% for product in products %}
+						<div class="product-item men">
+							<div class="product discount product_filter">
+								<div class="product_image">
+
+											<img src="{{ product.product_image }}" alt="">{{ product.product_image }}
+								</div>
+								<div class="favorite favorite_left"></div>
+								<div class="product_info">
+									<h6 class="product_name"><a href="single.html">{{ product.product_name }}</a></h6>
+									<div class="product_price">{{ product.price }} &pound;</div>
+								</div>
+							</div>
+							<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+						</div>
+                        {% endfor %}
+					</div>
+				</div>
+	s</div>
+</div>
+
+{% endblock content %}
