@@ -2,7 +2,7 @@ from django.db import models
 from .product_options import *
 
 class Product(models.Model):
-    product_image = models.ImageField(upload_to='main/static/shop/product_images/')
+    product_image = models.ImageField(upload_to='product_images')
 
     product_name = models.CharField(max_length=40)
 

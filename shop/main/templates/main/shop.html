@@ -10,9 +10,9 @@
                         {% for product in products %}
 						<div class="product-item men">
 							<div class="product discount product_filter">
-								<div class="product_image">
 
-											<img src="{{ product.product_image }}" alt="">{{ product.product_image }}
+								<div class="product_image">
+									<a href="{% url 'product-detail' product.id %}"><img src="{{ product.product_image.url }}"></a>
 								</div>
 								<div class="favorite favorite_left"></div>
 								<div class="product_info">
@@ -20,7 +20,6 @@
 									<div class="product_price">{{ product.price }} &pound;</div>
 								</div>
 							</div>
-							<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
 						</div>
                         {% endfor %}
 					</div>
