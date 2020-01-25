@@ -47,7 +47,7 @@
 								<li><a href="{% url 'main-shop' %}">shop</a></li>
 								<li><a href="{% url 'main-contact' %}">contact</a></li>
 								{% if user.is_authenticated %}
-								<li><a href="{% url 'account_logout' %}">logout</a></li>
+								<li><a href="#">logout</a></li>
 							{% else %}
 								<li class="account">
 									<a href="#">
@@ -55,14 +55,16 @@
 										<i class="fa fa-angle-down"></i>
 									</a>
 									<ul class="account_selection">
-										<li><a href="{% url 'account_login' %}"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-										<li><a href="{% url 'account_signup' %}"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+										<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
+										<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
 									</ul>
 								</li>
 							{% endif %}
 								</ul>
 							<ul class="navbar_user">
-								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+								{% if user.is_authenticated %}
+									<li><a href="{% url 'profile' %}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+								{% endif %}
 								<li class="checkout">
 									<a href="#">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
@@ -95,8 +97,8 @@
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="menu_selection">
-						<li><a href="{% url 'account_login' %}"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-						<li><a href="{% url 'account_signup' %}"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+						<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
+						<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
 					</ul>
 				</li>
 			</ul>

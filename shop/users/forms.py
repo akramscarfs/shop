@@ -1,21 +1,19 @@
-from allauth.account.forms import SignupForm
 from django import forms
+from .models import Account
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
-class CustomSignupForm(SignupForm):
-    full_name = forms.CharField(max_length=50, label='Full Name *')
-    country = forms.CharField(max_length=30, label='Country *')
-    city = forms.CharField(max_length=30, label='City *')
-    address1 = forms.CharField(max_length=50, label='Address 1 *')
-    address2 = forms.CharField(max_length=50, label='Address 2 (optional)', required=False)
-    post_code = forms.CharField(max_length=10, label='Post Code')
 
-    def signup(self, request, user):
-        user.full_name = self.cleaned_data['full_name']
-        user.country = self.cleaned_data['country']
-        user.city = self.cleaned_data['city']
-        user.address1 = self.cleaned_data['address1']
-        user.address2 = self.cleaned_data['address2']
-        user.post_code = self.cleaned_data['post_code']
-        user.save()
+class UserRegisterForm(UserCreationForm):
 
-        return user
+    class Meta:
+        model = Account
+        fields = ['username', 'email', 'first_name', 'last_name', 'country', 'address1', 'address2', 'postcode', 'phone_number', 'password1', 'password2']
+
+
+class UserUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Account
+        fields = ['country', 'address1', 'address2', 'postcode', 'phone_number']
+
