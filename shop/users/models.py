@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 class MyAccountManager(BaseUserManager):
-    def create_user(self, email, username, first_name, last_name, country, address1, post_code, phone_number, password=None):
+    def create_user(self, email, username, first_name, last_name, country, address1, postcode, phone_number, password=None):
         if not email:
             raise ValueError("Users must have an email address")
         if not username:
@@ -13,17 +13,29 @@ class MyAccountManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             username=username,
+            first_name=first_name,
+            last_name=last_name,
+            country=country,
+            address1=address1,
+            postcode=postcode,
+            phone_number=phone_number,
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, password):
+    def create_superuser(self, email, username, first_name, last_name, country, address1, postcode, phone_number, password):
         user = self.create_user(
             email=self.normalize_email(email),
             password=password,
             username=username,
+            first_name=first_name,
+            last_name=last_name,
+            country=country,
+            address1=address1,
+            postcode=postcode,
+            phone_number=phone_number,
         )
         user.is_admin = True
         user.is_staff = True
@@ -35,8 +47,8 @@ class MyAccountManager(BaseUserManager):
 class Account(AbstractBaseUser):
     email = models.EmailField(verbose_name="email")
     username = models.CharField(max_length=30, unique=True)
-    date_joined = models.CharField(max_length=30, verbose_name='date joined', default=timezone.now)
-    last_login = models.DateTimeField(max_length=30, verbose_name='last joined', default=timezone.now)
+    date_joined = models.CharField(max_length=40, verbose_name='date joined', default=timezone.now)
+    last_login = models.DateTimeField(max_length=40, verbose_name='last joined', default=timezone.now)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

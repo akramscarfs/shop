@@ -18,11 +18,12 @@ def register(request):
 
 @login_required
 def profile(request):
-    user_form = UserUpdateForm(request.POST, instance=request.user)
+    user_form = UserUpdateForm(instance=request.user)
     if request.method == 'POST':
-
+        user_form = UserUpdateForm(request.POST, instance=request.user)
         if request.user.is_authenticated:
             if user_form.is_valid():
+                user_form.instance.user = request.user
                 user_form.save()
                 messages.success(request, 'Thank you for successfully updating your profile!')
                 return redirect('profile')
