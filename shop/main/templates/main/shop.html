@@ -12,7 +12,7 @@
 							<div class="product discount product_filter">
 
 								<div class="product_image">
-									<a href="{% url 'product-detail' product.id %}"><img src="{{ product.product_image.url }}"></a>
+									<a href="{% url 'product-detail' product.id %}"><img src="{{ product.product_image_black.url }}"></a>
 								</div>
 								<div class="favorite favorite_left"></div>
 								<div class="product_info">
@@ -24,7 +24,7 @@
                         {% endfor %}
 					</div>
 				</div>
-	s</div>
+	</div>
 </div>
 
 {% endblock content %}

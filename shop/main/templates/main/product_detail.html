@@ -1,8 +1,350 @@
 {% extends "main/base.html" %}
+{% load static %}
 {% block content %}
-    <h2>Product: {{ product.product_name }}</h2>
-    <img src="{{ product.product_image.url }}" alt="{{ product.product_image.url }}">
-    <p>
-        Short description: {{ product.short_description }} <br> Long description :{{ product.long_description }} <br> Price: {{ product.price }}
-    </p>
+<h2 id="this-product">{{ product.product_name }}</h2>
+    <div class="product_container">
+        <div style="float: left;">
+            <div class="product-slideshow-container">
+                <div class="mySlides1">
+                    <img src="{{ product.product_image_blue.url }}" id="image-blue" style="width: 300px; height:300px">
+                </div>
+
+                <div class="mySlides1">
+                    <img src="{{ product.product_image_red.url }}" id="image-red" style="width: 300px; height:300px">
+                </div>
+
+                <div class="mySlides1">
+                    <img src="{{ product.product_image_green.url }}" id="image-green" style="width: 300px; height:300px">
+                </div>
+
+                <div class="mySlides1">
+                    <img src="{{ product.product_image_black.url }}" id="image-black" style="width: 300px; height:300px">
+                </div>
+
+                <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+
+            </div>
+            <div class="thumbnails" style="padding-top: 10px;">
+                <ul>
+                    <li class="thumbs"><a onclick="currentSlide(1)"><img src="{{ product.product_image_blue.url }}" style="width: 70px; height: 70px;"></a></li>
+                    <li class="thumbs"><a onclick="currentSlide(2)"><img src="{{ product.product_image_red.url }}" style="width: 70px; height: 70px;"></a></li>
+                    <li class="thumbs"><a onclick="currentSlide(3)"><img src="{{ product.product_image_green.url }}" style="width: 70px; height: 70px;"></a></li>
+                    <li class="thumbs"><a onclick="currentSlide(4)"><img src="{{ product.product_image_black.url }}" style="width: 70px; height: 70px;"></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="product_details_text">
+            <p id="long-description">{{ product.long_description }}</p>
+            <select id="size-selection" onchange="showColors()" style="width: 220px; height: 40px; font-size: 20px; padding-left:20px">
+                <option disabled="disabled" selected> -- Select size --</option>
+                {% if product.black_small > 0 or product.red_small > 0 or product.green_small > 0 or product.blue_small > 0 %}
+                    <option class="color" value="small">Small</option>
+                {% else %}
+                    <option class="color" value="small" disabled="disabled">Small (Unavailable)</option>
+                {% endif %}
+                {% if product.black_medium > 0 or product.red_medium > 0 or product.green_medium > 0 or product.blue_medium > 0 %}
+                    <option class="color" value="medium">Medium</option>
+                {% else %}
+                    <option class="color" value="medium" disabled="disabled">Medium (Unavailable)</option>
+                {% endif %}
+                {% if product.black_large > 0 or product.red_large > 0 or product.green_large > 0 or product.blue_large > 0 %}
+                    <option class="color" value="large">Large</option>
+                {% else %}
+                    <option class="color" value="large" disabled="disabled">Large (Unavailable)</option>
+                {% endif %}
+            </select>   <br><br>
+            <div class="btn-group">
+                <button style="background-color:#2E86C1;" onclick="AvailableStock(this.value)" class="color-button" value="blue" disabled="disabled"></button>
+                <button style="background-color:#C0392B;" onclick="AvailableStock(this.value)" class="color-button" value="red" disabled="disabled"></button>
+                <button style="background-color:#28B463;" onclick="AvailableStock(this.value)" class="color-button" value="green" disabled="disabled"></button>
+                <button style="background-color:black;" onclick="AvailableStock(this.value)" class="color-button" value="black" disabled="disabled"></button>
+            </div>
+            <br><br>
+            <div id="check-size">
+                <div class="quantity_group" style="margin-left: 30px;">
+                    <p id="max-stock" style="float: left; font-size: 22px; margin-top: 18px;">Quantity: </p>
+                    <input type="text" id="quantity" value="1" style="width: 50px; height:50px; text-align: center; font-size:170%; float: left; margin-left: 10px; margin-top: 10px;" readonly>
+                    <div class="vertical_group">
+                      <button id="plus" onclick="quantityPlus(1)">+</button>
+                      <button id="minus" onclick="quantityPlus(-1)">-</button>
+                    </div>
+                </div> <br>
+                <label style="font-size: 26px;"> <br><b> Price: &pound; </b></label><label id="item-price" style="font-weight: bold; font-size: 26px; padding-left: 5px;"> {{ product.price }}</label>
+                <br>
+                <button type="submit" form="form1" class="add-to-basket" disabled="disabled" id="add_to_basket" style="background-color: #4CAF50; width: 250px; height:50px; font-size: 26px; border: 1px solid green; color: white; margin-top: 10px;"><b> Add to Basket </b></button>
+            </div>
+        </div>
+    </div>
+    <br> <br>
+    <div style="display:none;">
+        <form method="post" id="form1">
+            {% csrf_token %}
+            {{ form }}
+        </form>
+    </div>
+<script>
+    function showColors() {
+        var add_to_basket = document.getElementById("add_to_basket");
+        add_to_basket.disabled = true;
+        var colors = document.getElementsByClassName("color-button");
+        for (i = 0; i < colors.length; i++) {
+            colors[i].className = colors[i].className.replace(" selected", "");
+        }
+        var size = document.getElementById("size-selection").value;
+        var check = document.getElementById("check-size");
+        var quantity = document.getElementById("quantity");
+        document.getElementById("item-price").innerHTML = {{ product.price }}.toFixed(2);
+        check.style.opacity = 0.5; // to check
+        check.disabled = false;
+        quantity.value = 1;
+        for (i = 0; i < colors.length; i++) {
+            colors[i].className = colors[i].className.replace(" available", "");
+            colors[i].disabled = true;
+        }
+        for (i = 0; i < colors.length; i++) {
+            if (size == "small") {
+                if (colors[i].value == "red") {
+                    if ({{ product.red_small}} > 0) {
+                        colors[i].className += " available";
+                        colors[i].disabled = false;
+                    }
+                }
+                if (colors[i].value == "blue") {
+                    if ({{ product.blue_small}} > 0) {
+                        colors[i].className += " available";
+                        colors[i].disabled = false;
+                    }
+                }
+                if (colors[i].value == "black") {
+                    if ({{ product.black_small}} > 0) {
+                        colors[i].className += " available";
+                        colors[i].disabled = false;
+                    }
+                }
+                if (colors[i].value == "green") {
+                    if ({{ product.green_small}} > 0) {
+                        colors[i].className += " available";
+                        colors[i].disabled = false;
+                    }
+                }
+            }
+            if (size == "medium") {
+                if (colors[i].value == "red") {
+                    if ({{ product.red_medium}} > 0) {
+                        colors[i].className += " available";
+                        colors[i].disabled = false;
+                    }
+                }
+                if (colors[i].value == "blue") {
+                    if ({{ product.blue_medium}} > 0) {
+                        colors[i].className += " available";
+                        colors[i].disabled = false;
+                    }
+                }
+                if (colors[i].value == "black") {
+                    if ({{ product.black_medium}} > 0) {
+                        colors[i].className += " available";
+                        colors[i].disabled = false;
+                    }
+                }
+                if (colors[i].value == "green") {
+                    if ({{ product.green_medium}} > 0) {
+                        colors[i].className += " available";
+                        colors[i].disabled = false;
+                    }
+                }
+            }
+            if (size == "large") {
+                if (colors[i].value == "red") {
+                    if ({{ product.red_large}} > 0) {
+                        colors[i].className += " available";
+                        colors[i].disabled = false;
+                    }
+                }
+                if (colors[i].value == "blue") {
+                    if ({{ product.blue_large}} > 0) {
+                        colors[i].className += " available";
+                        colors[i].disabled = false;
+                    }
+                }
+                if (colors[i].value == "black") {
+                    if ({{ product.black_large}} > 0) {
+                        colors[i].className += " available";
+                        colors[i].disabled = false;
+                    }
+                }
+                if (colors[i].value == "green") {
+                    if ({{ product.green_large}} > 0) {
+                        colors[i].className += " available";
+                        colors[i].disabled = false;
+                    }
+                }
+            }
+        }
+        var form_product_name = document.getElementById("id_product_name");
+        var form_size = document.getElementById("id_size");
+        var form_initial_price = document.getElementById("id_initial_price");
+        var a = "{{ product.product_name }}";
+        var b = "{{ product.price }}";
+        form_product_name.value = a;
+        form_size.value = size;
+        form_initial_price.value = b;
+        var form_quantity = document.getElementById("id_quantity");
+        var form_price = document.getElementById("id_price");
+        var a = {{ product.price }};
+        form_quantity.value = 1;
+        form_price.value = a;
+    }
+
+    function currentColor(color) {
+        var colors = document.getElementsByClassName("color-button");
+        var form_colour = document.getElementById("id_colour");
+        var add_to_basket = document.getElementById("add_to_basket");
+        var product_image = document.getElementById("id_product_image");
+        form_colour.value = color;
+        for (i = 0; i < colors.length; i++) {
+            colors[i].className = colors[i].className.replace(" selected", "");
+            add_to_basket.disabled = false;
+            if (color == colors[i].value) {
+                colors[i].className += " selected";
+                if (colors[i].value == "blue") {
+                    currentSlide(1);
+                    var image = document.getElementById("image-blue");
+                    product_image.value = image.src;
+                }
+                if (colors[i].value == "red") {
+                    currentSlide(2);
+                    var image = document.getElementById("image-red");
+                    product_image.value = image.src;
+                }
+                if (colors[i].value == "green") {
+                    currentSlide(3);
+                    var image = document.getElementById("image-green");
+                    product_image.value = image.src;
+                }
+                if (colors[i].value == "black") {
+                    currentSlide(4);
+                    var image = document.getElementById("image-black");
+                    product_image.value = image.src;
+                }
+            }
+        }
+    }
+
+    function AvailableStock(color) {
+        currentColor(color);
+        var size = document.getElementById("size-selection").value;
+        var color = document.getElementsByClassName(" selected")[0].value;
+        var check = document.getElementById("check-size");
+        var form_stock = document.getElementById("id_stock");
+        check.style.opacity="1";
+        check.disabled = false;
+        var stock;
+        if (size == "small") {
+            if (color == "red") {
+                stock = {{ product.red_small }};
+            }
+            if (color == "blue") {
+                stock = {{ product.blue_small }};
+            }
+            if (color == "black") {
+                stock = {{ product.black_small }};
+            }
+            if (color == "green") {
+                stock = {{ product.green_small }};
+            }
+        }
+        if (size == "medium") {
+            if (color == "red") {
+                stock = "{{ product.red_medium }}";
+            }
+            if (color == "blue") {
+                stock = {{ product.blue_medium }};
+            }
+            if (color == "black") {
+                stock = {{ product.black_medium }};
+            }
+            if (color == "green") {
+                stock = {{ product.green_medium }};
+            }
+        } if (size == "large") {
+            if (color == "red") {
+                stock = {{ product.red_large }};
+            }
+            if (color == "blue") {
+                stock = {{ product.blue_large }};
+            }
+            if (color == "black") {
+                stock = {{ product.black_large }};
+            }
+            if (color == "green") {
+                stock = {{ product.green_large }};
+            }
+        }
+        form_stock.value = stock;
+        var available_stock = document.getElementById("max-stock");
+        available_stock.value = stock;
+        var quantity = document.getElementById("quantity");
+        if (parseInt(stock) < parseInt(quantity.value)) {
+            quantity.value = stock;
+        }
+        var plus = document.getElementById("plus");
+        plus.disabled = false;
+        plus.style.opacity = "1";
+        var minus = document.getElementById("minus");
+        minus.disabled = true;
+        minus.style.opacity = "0.5";
+        if (quantity.value > 1) {
+            minus.disabled = false;
+            minus.style.opacity = "1";
+        }
+        if (stock == 1) {
+            plus.disabled = true;
+            plus.style.opacity = "0.5";
+        }
+        if (quantity.value == stock) {
+            plus.disabled = true;
+            plus.style.opacity = "0.5";
+        }
+        var price = quantity.value * {{ product.price }};
+        document.getElementById("item-price").innerHTML = price.toFixed(2);
+        var form_quantity = document.getElementById("id_quantity");
+        var form_price = document.getElementById("id_price");
+        form_quantity.value = quantity.value;
+        form_price.value = price;
+    }
+
+    function quantityPlus(n) {
+        var quantity = document.getElementById("quantity");
+        var stock = document.getElementById("max-stock").value;
+        if (n > 0) {
+            if (parseInt(quantity.value) < parseInt(stock)) {
+                quantity.value = parseInt(quantity.value) + n;
+                }
+                document.getElementById("minus").disabled = false;
+                document.getElementById("minus").style.opacity = "1";
+                if (quantity.value == stock) {
+                    document.getElementById("plus").disabled = true;
+                    document.getElementById("plus").style.opacity = "0.5";
+            }
+        } else {
+            if (parseInt(quantity.value) > 1) {
+                quantity.value = parseInt(quantity.value) + n;
+                document.getElementById("plus").disabled = false;
+                document.getElementById("plus").style.opacity = "1";
+                if (quantity.value == 1) {
+                    document.getElementById("minus").disabled = true;
+                    document.getElementById("minus").style.opacity = "0.5";
+                }
+            }
+        }
+        var price = {{ product.price }} * quantity.value;
+        document.getElementById("item-price").innerHTML = price.toFixed(2);
+        var form_quantity = document.getElementById("id_quantity");
+        var form_price = document.getElementById("id_price");
+        form_quantity.value = quantity.value;
+        form_price.value = price;
+    }
+</script>
 {% endblock content %}

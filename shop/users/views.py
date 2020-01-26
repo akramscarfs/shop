@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from main import views as main_views
 
 
 def register(request):
@@ -14,7 +14,8 @@ def register(request):
             return redirect('login')
     else:
         form = UserRegisterForm()
-    return render(request, 'users/register.html', {'form': form})
+    return render(request, 'users/register.html', {'form': form, 'items': len(main_views.basket_list)})
+
 
 @login_required
 def profile(request):
@@ -33,6 +34,7 @@ def profile(request):
 
     context = {
         'user_form': user_form,
+        'items': len(main_views.basket_list),
     }
 
     return render(request, 'users/profile.html', context)

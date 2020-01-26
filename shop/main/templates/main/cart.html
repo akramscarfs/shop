@@ -1,0 +1,114 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="basket" style="width: 70%;" >
+        <div class="basket-module"></div>
+        <div class="basket-labels">
+            <ul>
+                <li class="item item-heading">Item</li>
+                <li class="price">Price</li>
+                <li class="quantity">Quantity</li>
+                <li class="subtotal">Subtotal</li>
+            </ul>
+        </div>
+        {% for i in cart %}
+            <div class="basket-product">
+                <div class="item">
+                    <div class="product-image">
+                        <img src="{{ i.5 }}" style="width: 100px; height: 100px;">
+                    </div>
+                    <div class="product-details">
+                        <h1><strong><span class="item-quantity"></span>{{ i.0 }}</strong></h1>
+                        <p><strong>Size: {{ i.1 }}</strong></p>
+                        <p><strong>Colour: {{ i.2 }}</strong></p>
+                    </div>
+                </div>
+                <div class="price">{{ i.6 }}</div>
+                <div class="quantity">
+                    <input type="number" style="margin-top: 10px;" value="{{ i.3 }}" min="1" max="{{ i.7 }}" class="quantity-field" data-name="{{ i.0 }}" data-size="{{ i.1 }}" data-colour="{{ i.2 }}" onchange="change(this.dataset.name, this.dataset.size, this.dataset.colour, this.value); form1.submit();">
+                    <label style="font-size: 80%;">Available stock: {{ i.7 }}</label>
+                </div>
+                <div class="subtotal">{{ i.4 }}</div>
+                <div class="remove">
+                  <button type="submit" form="form1" data-name="{{ i.0 }}" data-size="{{ i.1 }}" data-colour="{{ i.2 }}" data-quantity="{{ i.3 }}" onclick="removeItem(this.dataset.name, this.dataset.size, this.dataset.colour, this.dataset.quantity)">Remove</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div>
+        <aside>
+            <div class="summary">
+                <div class="summary-total-items"><span class="total-items"></span> Items in your Bag</div>
+                <div class="summary-subtotal">
+                    <div style="font-size: 12px;">
+                        {% for i in cart %}
+
+                        <div class="reduce-name" style="float:left">{{i.0}}</div>
+                        <div style="float:right">Qty: {{i.3}} &emsp; Price: &pound;{{i.4}} </div>
+
+                        <br>
+                        {% endfor %}
+                    </div>
+                    <script>
+                        var check = document.getElementsByClassName("reduce-name");
+                        for (i = 0; i < check.length; i++) {
+                            var str = check[i].innerHTML;
+                            var l = str.length;
+                            if (l > 12) {
+                                check[i].innerHTML = str.slice(0,11) + "...";
+                            }
+                        }
+                    </script>
+                    <div class="summary-promo hide">
+                        <div class="promo-title">Promotion</div>
+                        <div class="promo-value final-value" id="basket-promo"></div>
+                    </div>
+                </div>
+                <div class="summary-total">
+                    <div class="total-title" style="text-align: right;">Total &emsp; &emsp;<span class="total-value final-value" id="basket-total">0.00</span></div>
+                    {% for i in cart %}
+                    <script>
+                        var total = {{ i.4 }};
+                        var price = document.getElementById("basket-total");
+                        new_total = total + parseFloat(price.innerHTML);
+                        price.innerHTML = new_total.toFixed(2);
+                    </script>
+                    {% endfor %}
+                </div>
+                <div class="summary-checkout">
+                    <button class="checkout-cta" onclick="location.href = '{% url 'payment' %}';">Go to Secure Checkout</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <div style="display: none;">
+        <form id="form1" method="post">
+            {% csrf_token %}
+            {{ form }}
+        </form>
+    </div>
+</div>
+<br><br><br><br><br><br><br>
+<link rel="stylesheet" type="text/css" href="{% static 'shop/styles/cart.css' %}">
+
+<script>
+    function change(name, size, colour, quantity){
+        var form_product_name = document.getElementById("id_product_name");
+        var form_size = document.getElementById("id_size");
+        var form_colour = document.getElementById("id_colour");
+        var form_quantity = document.getElementById("id_quantity");
+        form_product_name.value = name;
+        form_size.value = size;
+        form_colour.value = colour;
+        form_quantity.value = quantity;
+    }
+
+    function removeItem(name, size, colour, quantity){
+        change(name, size, colour, quantity);
+        var form_remove = document.getElementById("id_remove");
+        form_remove.value = "yes";
+    }
+
+</script>
+{% endblock content %}

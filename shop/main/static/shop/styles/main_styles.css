@@ -249,6 +249,13 @@ section
 {
 	height: 100%;
 }
+
+.faq {
+    display: inline-block;
+    float: center;
+    clear: left;
+    width: 1000px;
+}
 .super_container
 {
 	width: 100%;
@@ -879,6 +886,138 @@ section
 {
 	width: 140px;
 	margin-top: 32px;
+}
+
+/*********************************
+3.8 Product detail page
+*********************************/
+
+.product_container
+{
+    padding-left: 5px;
+    width: 700px ;
+    margin-top: 30px;
+    margin-bottom: 550px;
+    margin-left: auto ;
+    margin-right: auto ;
+    align: center;
+}
+.btn-group button
+{
+    margin-left: 2px;
+    margin-right: 3px;
+    height:50px;
+    width:50px;
+    border-radius: 50%;
+}
+
+.color-button
+{
+    opacity: 0.4;
+
+}
+
+.available
+{
+    opacity: 1;
+}
+
+.selected
+{
+    border: 2px solid blue;
+}
+
+.product_details_image
+{
+	float: left;
+}
+
+.product_details_text
+{
+    width: 300px;
+    float: left;
+    padding-left: 20px;
+}
+
+.vertical_group
+{
+    float: left;
+    padding-left: 20px;
+}
+
+.vertical_group button
+{
+  height: 35px;
+  width: 35px;
+  color: white; /* White text */
+  cursor: pointer; /* Pointer/hand icon */
+  display: block; /* Make the buttons appear below each other */
+  margin-bottom: 10px;
+}
+
+#minus
+{
+    background-color: #C0392B;
+    border: 1px solid red; /* Green border */
+}
+
+#plus
+{
+    background-color: #4CAF50; /* Green background */
+    border: 1px solid green; /* Green border */
+}
+
+.vertical_group button:not(:last-child) {
+  border-bottom: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.vertical_group button:hover {
+  background-color: #3e8e41;
+}
+
+/* Slideshow container */
+.product-slideshow-container
+{
+  max-width: 300px;
+  position: relative;
+  margin: auto;
+  align: center;
+  margin-top: 20px;
+}
+
+#long-description
+{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    font-size: 20px;
+    padding-left: 30px;
+}
+
+.thumbnails li {
+    border: 1px solid black;
+    cursor: pointer;
+    opacity: 0.7;
+    display: inline-block;
+}
+
+.thumbnails li:hover {
+    opacity: 1;
+}
+
+.thumbnails .active {
+    opacity: 1;
+    border: 2px solid blue;
+}
+
+#check-size {
+    opacity: 0.5;
+    disabled: disabled;
+}
+
+div.size-select {
+    opacity: 1.0;
 }
 
 /*********************************
@@ -1714,6 +1853,11 @@ img {vertical-align: middle;}
 /* Position the "next button" to the right */
 .next {
   right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev {
+  left: 0;
   border-radius: 3px 0 0 3px;
 }
 

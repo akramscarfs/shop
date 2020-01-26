@@ -1,5 +1,4 @@
 {% load static %}
-<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
 	{% if title %}
@@ -7,38 +6,31 @@
 	{% else %}
 		<title>Akram's Scarves</title>
 	{% endif %}
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Colo Shop Template">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="{% static 'shop/styles/bootstrap4/bootstrap.min.css' %}">
-<link href="{% static 'shop/plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="{% static 'shop/plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'shop/plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'shop/plugins/OwlCarousel2-2.2.1/animate.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'shop/styles/main_styles.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'shop/styles/responsive.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'shop/styles/contact_styles.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'shop/styles/contact_responsive.css' %}">
-<link rel="stylesheet" href="{% static 'shop/plugins/themify-icons/themify-icons.css' %}">
-<link rel="stylesheet" type="{% static 'shop/text/css" href="plugins/jquery-ui-1.12.1.custom/jquery-ui.css' %}">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="Colo Shop Template">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static 'shop/styles/bootstrap4/bootstrap.min.css' %}">
+	<link href="{% static 'shop/plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="{% static 'shop/plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'shop/plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'shop/plugins/OwlCarousel2-2.2.1/animate.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'shop/styles/main_styles.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'shop/styles/responsive.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'shop/styles/contact_styles.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'shop/styles/contact_responsive.css' %}">
+	<link rel="stylesheet" href="{% static 'shop/plugins/themify-icons/themify-icons.css' %}">
+	<link rel="stylesheet" type="{% static 'shop/text/css" href="plugins/jquery-ui-1.12.1.custom/jquery-ui.css' %}">
 </head>
-
-<body>
-
+<body onload="currentSlide(1);">
 <div class="super_container">
-
-	<!-- Header -->
-
 	<header class="header trans_300">
-
-		<!-- Main Navigation -->
-
 		<div class="main_nav_container">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12 text-right">
 						<div class="logo_container">
+							 <center><img src="{% static 'shop/images/logo-icon.png' %}" alt="Akram's Scarfs" height="72" width="72"></center>
 							<a href="#">Akram's<span> Scarves</span></a>
 						</div>
 						<nav class="navbar">
@@ -48,7 +40,7 @@
 								<li><a href="{% url 'main-contact' %}">contact</a></li>
 								{% if user.is_authenticated %}
 								<li><a href="{% url 'logout' %}">logout</a></li>
-							{% else %}
+								{% else %}
 								<li class="account">
 									<a href="#">
 										My Account
@@ -59,16 +51,16 @@
 										<li><a href="{% url 'register' %}"><i class="fa fa-user-plus" aria-hidden="true"></i>Sign Up</a></li>
 									</ul>
 								</li>
-							{% endif %}
+								{% endif %}
 								</ul>
 							<ul class="navbar_user">
 								{% if user.is_authenticated %}
 									<li><a href="{% url 'profile' %}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								{% endif %}
 								<li class="checkout">
-									<a href="#">
+									<a href="{% url 'cart-shop' %}">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items">7</span>
+										<span id="checkout_items" class="checkout_items">{{ items }}</span>
 									</a>
 								</li>
 							</ul>
@@ -104,8 +96,9 @@
 			</ul>
 		</div>
 	</div>
-<br><br><br><br><br><br>
+	<br><br><br><br><br><br>
 	<center>{% block content %}{% endblock content %}</center>
+</div>
 
 	<!-- Benefit -->
 
@@ -144,7 +137,7 @@
 						<div class="benefit_icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
 						<div class="benefit_content">
 							<h6>opening all week</h6>
-							<p>8AM - 09PM</p>
+							<p>8AM - 6 PM</p>
 						</div>
 					</div>
 				</div>
@@ -160,9 +153,9 @@
 				<div class="col-lg-6">
 					<div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
 						<ul class="footer_nav">
-							<li><a href="#">Blog</a></li>
-							<li><a href="#">FAQs</a></li>
-							<li><a href="contact.html">Contact us</a></li>
+							<li><a href="{% url 'profile' %}">My Account</a></li>
+							<li><a href="{% url 'faq' %}">FAQs</a></li>
+							<li><a href="{% url 'main-contact' %}">Contact us</a></li>
 						</ul>
 					</div>
 				</div>
@@ -172,8 +165,6 @@
 							<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
 							<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
 							<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
 				</div>
@@ -181,14 +172,14 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="footer_nav_container">
-						<div class="cr">©2018 All Rights Reserverd. This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Colorlib</a></div>
+						<div class="cr">©2018 All Rights Reserved. This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Maitha, Zahraa, Mohammed, Anastasios and Ibrahim</a></div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</footer>
 
-</div>
+
 
 <script src="{% static 'shop/js/jquery-3.2.1.min.js' %}"></script>
 <script src="{% static 'shop/styles/bootstrap4/popper.js' %}"></script>
@@ -207,16 +198,26 @@
 		showSlides(slideIndex[no] += n, no);
 	}
 
+	function currentSlide(n) {
+        showSlides(slideIndex[0] = n, 0);
+    }
+
 	function showSlides(n, no) {
 		var i;
 		var x = document.getElementsByClassName(slideId[no]);
+		var thumbs = document.getElementsByClassName("thumbs");
 		if (n > x.length) {slideIndex[no] = 1}
 		if (n < 1) {slideIndex[no] = x.length}
 		for (i = 0; i < x.length; i++) {
 			x[i].style.display = "none";
 		}
+		for (i = 0; i < thumbs.length; i++) {
+			thumbs[i].className = thumbs[i].className.replace(" active", "");
+		}
 		x[slideIndex[no]-1].style.display = "block";
+		thumbs[slideIndex[no]-1].className += " active";
 	}
+
 </script>
 </body>
 
