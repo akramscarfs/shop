@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Invoice</title>
+    <link rel="stylesheet" href="{% static 'shop/styles/invoice_style.css' %}" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <header class="clearfix">
+      <h1>INVOICE &#35;{{ invoice.id }}</h1>
+      <div id="company" class="clearfix">
+        <div>Akram's Scarves</div>
+        <div>Tower D 311,<br /> Brunel University, Uxbridge, UK <br /> UB8 3PH</div>
+        <div>+44 (0)1895 266519</div>
+        <div>akram.khan@brunel.ac.uk</div>
+      </div>
+      <div id="project">
+        <div><span>CLIENT</span> {{ invoice.client_name }}</div>
+        <div><span>ADDRESS</span> {{ invoice.client_address }}</div>
+        <div><span>EMAIL</span>{{ invoice.client_email }}</div>
+        <div><span>DATE</span> {{ invoice.date }}</div>
+      </div>
+    </header>
+    <main>
+      <table>
+        <thead>
+          <tr>
+            <th class="services">DESCRIPTION</th>
+			<th>SIZE</th>
+            <th>PRICE</th>
+            <th>QTY</th>
+            <th>SUBTOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for i in items %}
+          <tr>
+            <td class="desc">{{ i.0 }}</td>
+			<td class="service">{{ i.1 }}</td>
+            <td class="unit">&pound; {{i.3}}</td>
+            <td class="qty">{{ i.4 }}</td>
+            <td class="total">&pound; {{i.5}}</td>
+          </tr>
+        {% endfor %}
+		  </div>
+          <tr>
+            <td colspan="4">SUBTOTAL</td>
+            <td class="total">&pound;<span id="id_subtotal">0.00</span></td>
+            {% for i in items %}
+               <script>
+                    var total = {{ i.5 }};
+                    var price = document.getElementById("id_subtotal");
+                    new_total = parseFloat(total) + parseFloat(price.innerHTML);
+                    price.innerHTML = new_total.toFixed(2);
+               </script>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td colspan="4">DELIVERY FEE</td>
+            <td class="total">&pound;<span id="delivery_fee">{{ invoice.delivery }}</span></td>
+          </tr>
+          <tr>
+            <td colspan="4" class="grand total">GRAND TOTAL</td>
+            <td class="grand total">&pound; <span id="grand_total">0.00</span></td>
+           <script>
+                var price = document.getElementById("grand_total");
+                var subtotal = document.getElementById("id_subtotal").innerHTML;
+                var delivery_fee = document.getElementById("delivery_fee").innerHTML;
+                var new_total = parseFloat(subtotal) + parseFloat(delivery_fee);
+                price.innerHTML = new_total.toFixed(2);
+           </script>
+          </tr>
+        </tbody>
+      </table>
+      <div id="notices">
+        <div>NOTICE:</div>
+        <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+      </div>
+    </main>
+  </body>
+</html>

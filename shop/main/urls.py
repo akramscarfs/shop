@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-from .views import ProductDetailView
+from .views import ProductDetailView, InvoiceDetailView
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('', views.home, name='main-home'),
@@ -10,5 +11,5 @@ urlpatterns = [
     path('faq/', views.faq, name='faq'),
     path('cart/', views.cart, name='cart-shop'),
     path('payment/', views.payment, name='payment'),
-    path('', views.nr_items),
+    path('invoice/<int:pk>/', login_required(InvoiceDetailView.as_view()), name='invoice'),
 ]

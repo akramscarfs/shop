@@ -36,8 +36,10 @@ class Invoice(models.Model):
     client_address = models.CharField(max_length=100)
     client_email = models.CharField(max_length=200)
     date = models.CharField(max_length=6)
-    items = []
+    items = models.TextField(default="default")
     total_price = models.CharField(max_length=6)
     delivery = models.CharField(max_length=6)
     grand_total = models.CharField(max_length=6)
 
+    def __str__(self):
+        return "Invoice ID #" + str(self.id)

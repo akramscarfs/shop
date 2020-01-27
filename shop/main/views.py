@@ -3,6 +3,8 @@ from django.views.generic import DetailView
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
+import datetime
+from django.http import HttpResponseNotFound
 
 basket_list = []
 this_invoice_id = 0
@@ -20,7 +22,6 @@ class ProductDetailView(DetailView):
         context['products'] = products
         context['form'] = form
         context['items'] = len(basket_list)
-        print("works2")
 
         return context
 
@@ -93,22 +94,23 @@ def cart(request):
 def payment(request):
     if request.method == 'POST':
 
-        new_list = models.items
-
         model = Invoice()
-        model.client_name = ""
-        model.client_address = ""
-        model.client_email = ""
-        new_list = new_list.append(basket_list)
-        model.date = ""
-        model.delivery = ""
-        model.total_price = ""
-        model.grand_price = ""
+        model.client_name = request.user.first_name
+        model.client_address = request.user.address1
+        model.client_email = request.user.email
+        model.items = convertListToString(basket_list)
+        model.date = str(datetime.date.today())
+        subtotal = 0.00
+        for i in basket_list:
+            subtotal += round(float(i[4]), 2)
+        model.delivery = request.POST['delivery-fee']
+        model.total_price = round(subtotal, 2)
+        grand_total = subtotal + float(request.POST['delivery-fee'])
+        model.grand_price = round(grand_total, 2)
         model.save()
-        print(getattr(Invoice.objects.all().get(id=model.id), 'items'))
 
-        return redirect('this-invoice', pk=model.id)
-    return render(request, 'main/payment.html', {'cart': basket_list, 'items': len(basket_list)})
+        return redirect('invoice', pk=model.id)
+    return render(request, 'main/payment.html', {'items': len(basket_list)})
 
 
 def home(request):
@@ -132,3 +134,51 @@ def shop(request):
 
 def faq(request):
     return render(request, 'main/faq.html', {'items': len(basket_list)})
+
+
+class InvoiceDetailView(DetailView):
+    model = Invoice
+
+    def get_context_data(self, **kwargs):
+        context = super(InvoiceDetailView, self).get_context_data(**kwargs)
+        context['invoice'] = Invoice.objects.all().get(pk=self.object.pk)
+        this_invoice = Invoice.objects.all().get(pk=self.object.pk)
+        context['items'] = convertStringToList(this_invoice.items)
+
+        if self.request.user.email != this_invoice.client_email:
+            return None
+
+        return context
+
+
+def convertListToString(list):
+    list_str = ""
+    for i in list:
+        product_name = i[0]
+        size = i[1]
+        colour = i[2]
+        price = i[6]
+        quantity = i[3]
+        subtotal = "{0:.2f}".format(float(i[4]))
+        item_str = (product_name + ", " + size + ", " + colour + ", "
+                + price + ", " + quantity + ", " + subtotal)
+        list_str += item_str + "/ "
+    return list_str
+
+
+def convertStringToList(list_string):
+    my_list = []
+    item_string = list_string.split("/ ")
+    for i in item_string:
+        if i != item_string[-1]:
+            item = []
+            for x in i.split(", "):
+                item.append(x)
+            my_list.append(item)
+
+    return my_list
+
+
+def redirect():
+
+    return redirect('main-home')
