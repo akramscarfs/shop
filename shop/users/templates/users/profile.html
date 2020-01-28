@@ -21,6 +21,11 @@
             <button class="btn btn-outline-info" type="submit">Update Profile</button>
         </div>
     </form>
+    <br>
+    <h3><b>Past Orders</b></h3>
+    {% for invoice in invoices %}
+    <b><a href="/invoice/{{ invoice.id }}">Invoice Number {{ invoice.id }}</a></b><br>
+    {% endfor %}
 </div>
 
 {% endblock content %}

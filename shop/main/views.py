@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
 import datetime
-from django.http import HttpResponseNotFound
 
 basket_list = []
 this_invoice_id = 0
@@ -12,7 +11,7 @@ this_invoice_id = 0
 
 class ProductDetailView(DetailView):
     model = Product
-    print("works1")
+
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(ProductDetailView, self).get_context_data(**kwargs)
@@ -60,6 +59,7 @@ class ProductDetailView(DetailView):
 def nr_items(request):
 
     return render(request, 'main/base.html', {'items': len(basket_list)})
+
 
 def cart(request):
     data = {'product_name': 'product name',
@@ -177,8 +177,3 @@ def convertStringToList(list_string):
             my_list.append(item)
 
     return my_list
-
-
-def redirect():
-
-    return redirect('main-home')
